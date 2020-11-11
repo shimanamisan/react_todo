@@ -17,7 +17,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 // CSSのファイルを圧縮するプラグイン
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-console.log(`これがoutputPathです：${outputPath}`);
+// console.log(`これがoutputPathです：${outputPath}`);
 
 // モジュールにオブジェクトを設定する
 module.exports = {
@@ -48,6 +48,7 @@ module.exports = {
           MiniCssExtractPlugin.loader, // style-loaderから変更
           'css-loader',
           'sass-loader',
+          'import-glob-loader',
         ],
       },
       {

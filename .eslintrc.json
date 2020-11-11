@@ -14,6 +14,7 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
+    "max-classes-per-file": false,
     "plugins": [
         "react"
     ],

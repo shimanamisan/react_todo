@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './style.css';
-import './style.scss';
+import Game from './component/Game'
+import './scss/style.scss';
 
-console.log('I am Log!');
+// ========================================
 
-ReactDOM.render(<div className="react">Hi! React</div>, document.getElementById('root'));
+ReactDOM.render(
+  <Game />,
+  document.getElementById('root'),
+);
