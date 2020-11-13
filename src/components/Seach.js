@@ -1,5 +1,6 @@
 import React from 'react';
 
+// クラスを読み込めるように分割元のファイルでエクスポートする
 export default class Search extends React.Component {
 
   constructor(props){
@@ -18,8 +19,8 @@ export default class Search extends React.Component {
   render() {
     return (
       <div >
-        <input type="text" className="c-form c-form__search" type="text" placeholder="リストを検索" onChange={this.handleChange}
-              value={this.state.val} placeholder="somothing keyword" />
+        <input type="text" className="c-form c-form__search" type="text" onChange={this.handleChange}
+              value={this.state.val} placeholder="リストを検索" />
         <i className="fas fa-search c-form__search__icon"/>
       </div>
     );
