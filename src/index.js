@@ -17,6 +17,7 @@ import TodoCreator from './components/TodoCreater';
 import Search from './components/Seach';
 import DeleteBtn from './components/DeleteBtn'
 import OtherBtn from './components/OtherBtn'
+import Modal from './components/modal/Modal'
 
 
 class TodoApp extends React.Component {
@@ -41,7 +42,8 @@ class TodoApp extends React.Component {
           isDone: false
         }
       ],
-      searchText: ''
+      searchText: '',
+      modalFlg: true
     };
     // 自分で作成したメソッドは、thisの向き先を自分自身のクラスにするためにbindメソッドを使って束縛する（そうしないとエラーになる）
     this.callBackRemoveTask = this.callBackRemoveTask.bind(this);
@@ -49,11 +51,28 @@ class TodoApp extends React.Component {
     this.callBackDone = this.callBackDone.bind(this);
     this.callBackText = this.callBackText.bind(this);
     this.callBackSearch = this.callBackSearch.bind(this);
+    this.callBackisDoneAllDelete = this.callBackisDoneAllDelete.bind(this);
+    this.callBackModalOpen = this.callBackModalOpen.bind(this);
+    this.callBackModalClose = this.callBackModalClose.bind(this);
     this.filterCollection = this.filterCollection.bind(this);
   }
   // todoリストのユニークなIDを作成するメソッド
   createHashId(){
-    return Math.random().toString(36).slice(-16);
+    let str = "";
+    let keyLength = 15;
+    const key = {
+      small: "abcdefghijklmnopqrstuvwxyz",
+      large: "ABCDEFGHIJKLMNPQRSTUVWXYZ",
+      num: "1234567890",
+      symbol: "#$=", // デフォルトで定義されている'_-'の２文字を変更、'='を追加
+    };
+    const createID = str.concat(key.small, key.large, key.num, key.symbol);
+    let newId = "";
+    for (let i = 0; i < keyLength; i++) {
+      newId += createID[Math.floor(Math.random() * createID.length)];
+      // console.log("ID作成メソッド " + newId)
+    }
+    return newId;
   }
   // Searchコンポーネントのテキストボックスの値をstateに格納するメソッド
   callBackSearch(val) {
@@ -81,6 +100,23 @@ class TodoApp extends React.Component {
     this.setState({
       data: newItem
     })
+  }
+  // 完了済みのタスクを全て削除するメソッド
+  callBackisDoneAllDelete(){
+    if(window.confirm("完了したタスクを全て削除しますか？")){
+      // fillter関数の中の処理で、条件が合致（trueのものだけ）した要素だけ残される
+      // falseの要素は取り残されて新しい配列が返される
+      // 条件に合致するものがなければ空の配列が返されれる
+      let newItem = this.state.data.filter( item => {
+        console.log(!item.isDone)
+        // isDoneがfalseのものだけ新しい配列として返す
+        // trueのものは除去される
+        return !item.isDone
+      })
+      this.setState({
+        data: newItem
+      })
+    }
   }
   // タスクを削除するメソッド
   callBackRemoveTask(id){
@@ -116,10 +152,22 @@ class TodoApp extends React.Component {
     this.setState({
       data: newVal
     })
-
   }
-
+  callBackModalOpen(){
+    console.log("open!!")
+    this.setState({
+      modalFlg: false
+    })
+  }
+  callBackModalClose(){
+    console.log("close!")
+    this.setState({
+      modalFlg: true
+    })
+  }
+  // todoリスト検索用メソッド
   filterCollection(elm){
+    console.log(elm)
     const regexp = new RegExp('^' + this.state.searchText, 'i');
     return (elm.text.match(regexp));
   }
@@ -131,13 +179,18 @@ class TodoApp extends React.Component {
 
     return (
       <div>
+        <Modal
+        callBackModalClose={this.callBackModalClose}
+        modalFlg={this.state.modalFlg}
+        />
+
         <div className="c-form__wrapp">
           <TodoCreator callBackAddTask={this.callBackAddTask}/>
         </div>
 
         <div className="c-btn__wrapp">
-          <DeleteBtn/>
-          <OtherBtn/>
+          <DeleteBtn callBackisDoneAllDelete={this.callBackisDoneAllDelete}/>
+          <OtherBtn callBackModalOpen={this.callBackModalOpen}/>
         </div>
 
         <div className="c-form__wrapp">

@@ -1,14 +1,17 @@
 .u- {
-  &handle {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 27%;
-    z-index: 2;
-    width: 63%;
-    height: 100%;
-    &:hover {
-      cursor: move !important;
-    }
-  }
+	&handle {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 27%;
+		z-index: 2;
+		width: 63%;
+		height: 100%;
+		&:hover {
+			cursor: move !important;
+		}
+	}
+	&modal {
+		display: none;
+	}
 }
