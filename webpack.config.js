@@ -12,12 +12,21 @@ const outputPath = path.resolve(__dirname, 'dist');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // CSSファイルを別ファイルへ出力するためのプラグイン
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+//
+const TerserPlugin = require('terser-webpack-plugin');
 // プロダクションモードでバンドル時に、console.logを自動的に削除するプラグイン
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 // CSSのファイルを圧縮するプラグイン
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-
 // console.log(`これがoutputPathです：${outputPath}`);
+
+// [定数] webpack の出力オプションを指定します
+// 'production' か 'development' を指定
+// const MODE = "development";
+// // ソースマップの利用有無(productionのときはソースマップを利用しない)
+// const enabledSourceMap = MODE === "production";
+// console.log(" 現在のモード ：" + MODE);
 
 // モジュールにオブジェクトを設定する
 module.exports = {
@@ -91,19 +100,23 @@ module.exports = {
     new MiniCssExtractPlugin({
       // [name]：デフォルトでmainという名前が使用される
       // [hash]：バンドル時にユニークな名前がつけられる
-      filename: '[name].[hash].css',
+      // filename: '[name].[hash].css',
+      filename: 'main.css',
     }),
   ],
   // 最適化（webpack4から導入された）
   optimization: {
-    // optimizationの設定の中のminimizerという設定にUglifyJsPluginインスタンスを渡す
+    // optimizationの設定の中のminimizerという設定にTerserPluginインスタンスを渡す
     minimizer: [
+      new TerserPlugin({
+        extractComments: "all"
+      }),
       new UglifyJsPlugin({
         uglifyOptions: {
           compress: {
             drop_console: true,
-          },
-        },
+          }
+        }
       }),
       new OptimizeCssAssetsPlugin({}),
     ],

@@ -1,4 +1,9 @@
-# React で作成した TODO リスト
+# React.js で作成した TODO リスト
+
+- React.js を使用した DOM 操作になれるために作成しました。
+- その他**webpack や babel**を使用した開発環境の構築も行いました。
+
+[https://react-task-app.shimanamisan.com/](https://react-task-app.shimanamisan.com/)
 
 ## 機能
 

@@ -1,7 +1,7 @@
 import "particles.js/particles";
 const particlesJS = window.particlesJS;
 particlesJS.load("js-particles", "./particles.json", function () {
-  console.log("callback - particles.js config loaded");
+  // console.log("callback - particles.js config loaded");
 });
 
 import React from 'react';
@@ -66,11 +66,15 @@ class TodoApp extends React.Component {
       num: "1234567890",
       symbol: "#$=", // デフォルトで定義されている'_-'の２文字を変更、'='を追加
     };
+    // concatメソッドの引数に入った文字列を連結して、新しい配列に文字列して返す
     const createID = str.concat(key.small, key.large, key.num, key.symbol);
+    // console.log("createID ：" + createID)
     let newId = "";
     for (let i = 0; i < keyLength; i++) {
+      // console.log(" :" + typeof createID)
+      // console.log(" :" + createID[6])
+      // createIDにランダムに添え字を指定して文字列を取り出す
       newId += createID[Math.floor(Math.random() * createID.length)];
-      // console.log("ID作成メソッド " + newId)
     }
     return newId;
   }
@@ -82,7 +86,7 @@ class TodoApp extends React.Component {
   }
   // isDoneを変更するメソッド
   callBackDone(id){
-    console.log("孫コンポーネントから通知されました： " + id)
+    // console.log("孫コンポーネントから通知されました： " + id)
     let newItem = this.state.data.map( item => { // mapメソッドは新しい配列を返す
         // 子コンポーネントから渡って来たidと同じタスクだった場合は下記の処理を行う
         if(item.id === id){
@@ -94,7 +98,7 @@ class TodoApp extends React.Component {
         // 違うidだった場合は、mapで分解された要素をそのまま返却する
         return item
     })
-    console.log(newItem)
+    // console.log(newItem)
 
     // 新しいオブジェクトをセットする
     this.setState({
@@ -108,7 +112,7 @@ class TodoApp extends React.Component {
       // falseの要素は取り残されて新しい配列が返される
       // 条件に合致するものがなければ空の配列が返されれる
       let newItem = this.state.data.filter( item => {
-        console.log(!item.isDone)
+        // console.log(!item.isDone)
         // isDoneがfalseのものだけ新しい配列として返す
         // trueのものは除去される
         return !item.isDone
@@ -148,26 +152,26 @@ class TodoApp extends React.Component {
         }
         return item;
     })
-    console.log(newVal)
+    // console.log(newVal)
     this.setState({
       data: newVal
     })
   }
   callBackModalOpen(){
-    console.log("open!!")
+    // console.log("open!!")
     this.setState({
       modalFlg: false
     })
   }
   callBackModalClose(){
-    console.log("close!")
+    // console.log("close!")
     this.setState({
       modalFlg: true
     })
   }
   // todoリスト検索用メソッド
   filterCollection(elm){
-    console.log(elm)
+    // console.log(elm)
     const regexp = new RegExp('^' + this.state.searchText, 'i');
     return (elm.text.match(regexp));
   }
